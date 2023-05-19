@@ -13,7 +13,8 @@ class Rate(models.Model):
             'id':self.id,
             'customer': self.customer.to_dict(),
             'productId': self.productId,
-            'rating': self.rating
+            'rating': self.rating,
+            'content':self.content
         }
 
     def __str__(self):

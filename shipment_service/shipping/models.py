@@ -5,7 +5,7 @@ class Shipping(models.Model):
     customerId= models.IntegerField()
     orderId= models.IntegerField()
     company = models.ForeignKey(Company,on_delete=models.CASCADE)
-    intendTime = models.CharField(max_length=255)
+    intendTime = models.CharField(max_length=255,null=True)
     startTime = models.CharField(max_length=255)
     status = models.CharField(max_length=255)
 
@@ -15,6 +15,7 @@ class Shipping(models.Model):
     def to_dict(self):
         stages = Stage.objects.filter(shipping=self).order_by('-time')
         shipping_dict = {
+            'id':self.id,
             "customerId": self.customerId,
             "orderId": self.orderId,
             "company": self.company.to_dict(),  # Sử dụng phương thức to_dict() từ lớp Company

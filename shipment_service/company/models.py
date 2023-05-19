@@ -12,6 +12,7 @@ class Company(models.Model):
     
     def to_dict(self):
         company_dict = {
+            "id":self.id,
             "name": self.name,
             "email": self.email,
             "phone": self.phone,

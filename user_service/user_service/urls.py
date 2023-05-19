@@ -24,5 +24,6 @@ urlpatterns = [
     path('',include('user_info.urls')),
     path('',include('user_update.urls')),
     path('',include('delete_user.urls')),
-    path('comment/',include('comment.urls'))
+    path('comment/',include('comment.urls')),
+    path('rate/',include('rate.urls'))
 ]

@@ -56,15 +56,15 @@ def add_to_cart(request):
         data = json.loads(raw_data)
         productId = data.get("productId")
         quantity = data.get("quantity")
-        price = data.get("price")
+        #price = data.get("price")
         customerId = data.get("customerId")
     else:
         return JsonResponse({"status":"error",
                              "mesage":"method is not POST"},status =400)
     # Kiểm tra các thông tin bắt buộc có đầy đủ hay không
-    if not (customerId and productId and quantity and price ):
+    if not (customerId and productId and quantity ):
         return JsonResponse({"status": "error", "message": "Vui lòng điền đầy đủ thông tin.",
-                             "data":f"{customerId} and {productId} and {quantity} and  {price}"},
+                             "data":f"{customerId} and {productId} and {quantity} "},
                                status=400)
 
     # Tạo một đối tượng user dựa trên thông tin đã nhận được
@@ -77,14 +77,14 @@ def add_to_cart(request):
     if response.status_code == 200:
         try:
             item = Item.objects.get(cart= obj,productId=productId)
-            item.price=price
+            item.price = response.json().get('data').get('price') * quantity
             item.quantity=quantity
             item.save()
         except Item.DoesNotExist:
             item= Item(
                 cart=obj,
                 productId=productId,
-                price=price,
+                price=response.json().get('data').get('price') * quantity,
                 quantity=quantity
             )
             item.save()

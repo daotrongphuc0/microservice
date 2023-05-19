@@ -2,11 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Order(models.Model):
-    shippingId = models.IntegerField()
+    shippingId = models.IntegerField(null=True)
     customerId = models.IntegerField()
-    paymentId = models.IntegerField()
+    paymentId = models.IntegerField(null=True)
     status = models.CharField(max_length=255)
     total = models.BigIntegerField()
+    time = models.CharField(max_length=255)
 
     def __str__(self) :
         return f"{self.customerId} - {self.id}"
@@ -19,6 +20,7 @@ class Order(models.Model):
             "paymentId": self.paymentId,
             "status": self.status,
             "total": self.total,
+            "time":self.time,
             'item':[item.to_dict() for item in items]
         }
         return order_dict
@@ -28,7 +30,7 @@ class Item(models.Model):
     productId = models.IntegerField()
     quantity = models.IntegerField()
     price = models.BigIntegerField()
-    order = models.ForeignKey(models,on_delete=models.CASCADE)
+    order = models.ForeignKey(Order,on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.order} -{self.id} "
